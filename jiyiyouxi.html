@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>数值记忆游戏</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #1d6d56;
+        }
+        #memorySequence {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        #memoryInput {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        #memoryResult {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>数值记忆游戏</h1>
+<div id="memorySequence"></div>
+<input type="text" id="memoryInput" placeholder="输入记住的数字序列" required>
+<button id="submitMemory">提交答案</button>
+<div id="memoryResult"></div>
+
+<script>
+const memorySequenceElement = document.getElementById('memorySequence');
+const memoryInputElement = document.getElementById('memoryInput');
+const memoryResultElement = document.getElementById('memoryResult');
+
+function generateMemorySequence() {
+    const sequence = [];
+    for (let i = 0; i < 5; i++) {
+        sequence.push(Math.floor(Math.random() * 10));
+    }
+    memorySequenceElement.textContent = `记住这个序列：${sequence.join(' ')}`;
+    setTimeout(() => {
+        memorySequenceElement.textContent = '输入你记住的数字序列：';
+    }, 3000); // 显示序列3秒钟
+    memoryInputElement.dataset.correctAnswer = sequence.join('');
+}
+
+document.getElementById('submitMemory').addEventListener('click', function() {
+    const userAnswer = memoryInputElement.value;
+    const correctAnswer = memoryInputElement.dataset.correctAnswer;
+    if (userAnswer === correctAnswer) {
+        memoryResultElement.textContent = '回答正确！';
+    } else {
+        memoryResultElement.textContent = `回答错误，正确答案是：${correctAnswer}`;
+    }
+    memoryInputElement.value = '';
+    generateMemorySequence();
+});
+
+generateMemorySequence();
+</script>
+
+</body>
+</html>
